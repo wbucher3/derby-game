@@ -24,7 +24,7 @@ class Horse(pygame.sprite.Sprite):
         self.predictablity = predictablity
         self.rotation_velocity = rotation_velocity
         self.acceleration = acceleration
-        self.velocity = 0
+        self.velocity = 10
         self.angle = random.randint(0, 360)
         self.x, self.y = start_position
         self.start_position = start_position
@@ -32,8 +32,17 @@ class Horse(pygame.sprite.Sprite):
 
 
     def update(self):
-        self.rect.x = self.rect.x + random.randint(-10, 10)
-        self.rect.y = self.rect.y + random.randint(-10, 10)
+        self.velocity = 10
+        radians = math.radians(self.angle)
+        vertical = math.cos(radians) * self.velocity
+        horizontal = math.sin(radians) * self.velocity
+
+        self.rect.y -= vertical
+        self.rect.x -= horizontal
     
-    def stop(self):
-        self.rect.x = 200
+    def bounce(self):
+        radians = math.radians(self.angle)
+        self.rect.y += math.cos(radians) * self.velocity
+        self.rect.x += math.sin(radians) * self.velocity
+        self.angle = self.angle + 180 + random.randint(-50,50)
+        

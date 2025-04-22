@@ -69,11 +69,12 @@ while run:
     horse_group.update()
     flag_group.update()
 
-    collide_dict = test_collisions = pygame.sprite.groupcollide(horse_group, fence_group, False, False, collided = pygame.sprite.collide_mask)
+    wall_collide_dict = test_collisions = pygame.sprite.groupcollide(horse_group, fence_group, False, False, pygame.sprite.collide_mask)
 
-    for horse in collide_dict:
+    for horse in wall_collide_dict:
         print(horse.name + " collided with fence!")
-        horse.stop()
+        horse.bounce()
+
 
     draw_background(WIN, images)
     fence_group.draw(WIN)
