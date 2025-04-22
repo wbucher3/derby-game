@@ -3,10 +3,29 @@ import time
 import math
 from util import scale_image
 from horse import Horse
+from basicsprite import BasicSprite
+
+pygame.init()
+
+def draw_background(win, images):
+    for img, pos in images:
+        win.blit(img, pos)
 
 # Load the images 
-GRASS = scale_image(pygame.image.load("imgs/grass.png"), 0.8)
-TRACK = scale_image(pygame.image.load("imgs/track.png"), 0.8)
+GRASS_IMG = scale_image(pygame.image.load("imgs/grass.png"), 0.8)
+TRACK_IMG = scale_image(pygame.image.load("imgs/track.png"), 0.8)
+# Static images
+images = [(GRASS_IMG, (0, 0)), (TRACK_IMG, (0, 0))]
+
+# Using the images, set up the window
+WIDTH, HEIGHT = TRACK_IMG.get_width(), TRACK_IMG.get_height()
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("The Derby!")
+clock = pygame.time.Clock()
+FPS = 30
+run = True
+start = False
+
 
 # Load the fence
 FENCE = scale_image(pygame.image.load("imgs/fence.png"), 0.8)
@@ -17,70 +36,57 @@ FINISH = scale_image(pygame.image.load("imgs/flag.png"), 0.8)
 FINISH_MASK = pygame.mask.from_surface(FINISH)
 FINISH_POSITION = (1350,700)
 
-# Using the images, set up the window
-WIDTH, HEIGHT = TRACK.get_width(), TRACK.get_height()
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("The Derby!")
 
-
-clock = pygame.time.Clock()
-images = [(GRASS, (0, 0)), (TRACK, (0, 0)), (FINISH, FINISH_POSITION), (FENCE, (0, 0))]
 
 red_horse = Horse("Red", 10, 10, 10, 10, 10, (90, 110))
 purple_horse = Horse("Purple", 10, 10, 10, 10, 10, (190, 210))
 green_horse = Horse("Green", 10, 10, 10, 10, 10, (290, 310))
-horses = [purple_horse, red_horse, green_horse]
 
 
-FPS = 60
+horse_group = pygame.sprite.Group()
+horse_group.add(red_horse)
+horse_group.add(purple_horse)
+horse_group.add(green_horse)
+
+fence_sprite = BasicSprite(FENCE, (0,0))
+flag_sprite = BasicSprite(FINISH, FINISH_POSITION)
+
+fence_group = pygame.sprite.Group()
+fence_group.add(fence_sprite)
+
+flag_group = pygame.sprite.Group()
+flag_group.add(flag_sprite)
 
 
-def draw(win, images, horses):
-    for img, pos in images:
-        win.blit(img, pos)
-    
-    for horse in horses:
-        horse.draw(win)
-
-    pygame.display.update()
-
-
-
-run = True
-start = False
 
 while run:
-
-# Set up the clock and draw the sprites
-    clock.tick(FPS)
-    draw(WIN, images, horses)
     keys = pygame.key.get_pressed()
-
-# Handles the Quit
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             run = False
     
+    fence_group.update()
+    horse_group.update()
+    flag_group.update()
 
-# Starts the Race!
-    if keys[pygame.K_SPACE]:
-        start = True
+    collide_dict = test_collisions = pygame.sprite.groupcollide(horse_group, fence_group, False, False, collided = pygame.sprite.collide_mask)
+
+    for horse in collide_dict:
+        print(horse.name + " collided with fence!")
+        horse.stop()
+
+    draw_background(WIN, images)
+    fence_group.draw(WIN)
+    horse_group.draw(WIN)
+    flag_group.draw(WIN)
 
 
-# Game loop
-    if start:
-        purple_horse.move_forward()
-        
+    pygame.display.flip()
+    clock.tick(FPS)
+    # Handles the Quit
 
-        if purple_horse.collide(FENCE_BORDER_MASK) != None:
-            purple_horse.bounce()
 
-        finish_poi_collide = purple_horse.collide(FINISH_MASK, *FINISH_POSITION)
 
-        if finish_poi_collide != None:
-            if finish_poi_collide[1] != 0:
-                purple_horse.reset()
-                print("You Won! Resetting Game...")
 
 
 
