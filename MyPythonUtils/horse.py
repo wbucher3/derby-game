@@ -1,7 +1,7 @@
 import pygame
 import math
 import random
-from util import scale_image
+from MyPythonUtils.util import scale_image
 
 class Horse(pygame.sprite.Sprite):
     def __init__(self, name, start_position):
@@ -28,7 +28,7 @@ class Horse(pygame.sprite.Sprite):
         radians = math.radians(self.angle)
         self.rect.y += math.cos(radians) * self.velocity
         self.rect.x += math.sin(radians) * self.velocity
-        self.angle = self.angle + 180 + random.randint(-50,50)
+        self.angle = self.angle + 180 + random.randint(-60,60)
 
     def display_celebration(self, window, center):
         self.image = scale_image(pygame.image.load("imgs/horses/" + self.name + ".png"), 7)
@@ -41,7 +41,7 @@ class Horse(pygame.sprite.Sprite):
     def display_name(self, window, center):
         white = (255, 255, 255)
         black = (0, 0, 0)
-        font = pygame.font.Font('Comic-Sans-MS.ttf', 120)
+        font = pygame.font.Font('assets/Comic-Sans-MS.ttf', 120)
         text = font.render(self.name + " is Victorious!", True, white, black)
         textRect = text.get_rect()
         textRect.center = center

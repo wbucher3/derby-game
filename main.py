@@ -1,21 +1,21 @@
 import pygame
 import time
 import math
-from util import scale_image
-from horse import Horse
-from basicsprite import BasicSprite
+from MyPythonUtils.util import scale_image
+from MyPythonUtils.horse import Horse
+from MyPythonUtils.basicsprite import BasicSprite
 import json
 
 pygame.init()
 
 # Open and read the JSON file
 global map_data
-with open('maps.json', 'r') as file:
+with open('assets/maps.json', 'r') as file:
     global map_data
     map_data = json.load(file)
 
 global horse_data
-with open('horses.json', 'r') as file:
+with open('assets/horses.json', 'r') as file:
     global horse_data
     horse_data = json.load(file)
 
