@@ -17,7 +17,7 @@ pip install pygame
 Run the game
 
 ```
-python3 game.py
+python3 main.py
 ```
 
-Check out the formatting in `maps.json`, `horses.json`, and the `imgs/` directory for how to make your own derby!
+Check out the formatting in `assets/maps.json`, `assets/horses.json`, and the `imgs/` directory for how to make your own derby!
