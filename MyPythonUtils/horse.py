@@ -6,7 +6,7 @@ from MyPythonUtils.util import scale_image
 class Horse(pygame.sprite.Sprite):
     def __init__(self, name, start_position):
         super().__init__()
-        self.image = scale_image(pygame.image.load("imgs/horses/" + name + ".png"), 0.8)
+        self.image = scale_image(pygame.image.load("imgs/horses/" + name + ".png"), 0.6)
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect(topleft=start_position)
         self.velocity = 10
@@ -23,10 +23,17 @@ class Horse(pygame.sprite.Sprite):
         self.rect.x -= horizontal
     
     def bounce(self):
+        # move slight away from collision
         radians = math.radians(self.angle)
         self.rect.y += math.cos(radians) * self.velocity
         self.rect.x += math.sin(radians) * self.velocity
-        self.angle = self.angle + 180 + random.randint(-50,50)
+
+        # adjust angle
+        sign = random.randint(0,1)
+        if sign == 0:
+            self.angle = self.angle + 180 - (45 * random.randint(-1,1))
+        else: 
+            self.angle = self.angle - 180 + (45 * random.randint(-1,1))
 
     def display_celebration(self, window, center):
         self.image = scale_image(pygame.image.load("imgs/horses/" + self.name + ".png"), 7)
@@ -44,4 +51,3 @@ class Horse(pygame.sprite.Sprite):
         textRect = text.get_rect()
         textRect.center = center
         window.blit(text, textRect)
-        

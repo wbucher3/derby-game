@@ -1,8 +1,20 @@
 {
+    "map-0": {
+        "directory": "map-0/",
+        "fenceName": "fence.png",
+        "trackName": "track.png",
+        "flagPositon": {"x": 800, "y": 550},
+        "startingPositions": [
+            {"x":270,"y":270},
+            {"x":270,"y":370},
+            {"x":270,"y":470},
+            {"x":270,"y":570}
+        ]
+    },
     "map-1": {
         "directory": "map-1/",
-        "fenceName": "fence-oval.png",
-        "trackName": "map-oval.png",
+        "fenceName": "fence.png",
+        "trackName": "track.png",
         "flagPositon": {"x": 1650, "y": 550},
         "startingPositions": [
             {"x":270,"y":270},
@@ -12,15 +24,15 @@
         ]
     },
     "map-2": {
-        "directory": "testing/",
-        "fenceName": "simple-fence.png",
-        "trackName": "simple-track.png",
-        "flagPositon": {"x": 800, "y": 550},
+        "directory": "map-2/",
+        "fenceName": "fence.png",
+        "trackName": "track.png",
+        "flagPositon": {"x": 770, "y": 580},
         "startingPositions": [
-            {"x":270,"y":270},
-            {"x":270,"y":370},
-            {"x":270,"y":470},
-            {"x":270,"y":570}
+            {"x":190,"y":190},
+            {"x":190,"y":390},
+            {"x":345,"y":190},
+            {"x":345,"y":390}
         ]
     }
 }
