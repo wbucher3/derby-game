@@ -1,10 +1,10 @@
 import pygame
 import time
 import math
+import json
 from MyPythonUtils.util import scale_image
 from MyPythonUtils.horse import Horse
 from MyPythonUtils.basicsprite import BasicSprite
-import json
 
 pygame.init()
 
@@ -30,7 +30,6 @@ starting_position_list = []
 for position in map_dict['startingPositions']:
     starting_position_list.append((position['x'], position['y']))
 
-
 # Load the track background
 TRACK_IMG = scale_image(pygame.image.load("imgs/" + map_directory + map_track_file), 1)
 
@@ -45,7 +44,7 @@ FINISH_MASK = pygame.mask.from_surface(FINISH)
 
 # Using the images, set up the window
 WIDTH, HEIGHT = TRACK_IMG.get_width(), TRACK_IMG.get_height()
-WIN = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.display.set_caption("The Derby!")
 clock = pygame.time.Clock()
 FPS = 30
@@ -62,10 +61,12 @@ flag_group.add(flag_sprite)
 
 # adds only horses for the amount of spots allowed on track
 horse_group = pygame.sprite.Group()
+horse_individual_list = []
 for index in range(0, len(starting_position_list)):
     if index < len(horse_name_list):
-        horse_group.add(Horse(horse_name_list[index], starting_position_list[index]))
-    
+        current = Horse(horse_name_list[index], starting_position_list[index])
+        horse_group.add(current)
+        horse_individual_list.append(pygame.sprite.GroupSingle(current))
 
 run_game = True
 race_is_ongoing = False
@@ -76,10 +77,10 @@ while run_game:
 
     # Draw everything before the race begins
     if first_loop:
-        WIN.blit(TRACK_IMG, (0,0))
-        fence_group.draw(WIN)
-        horse_group.draw(WIN)
-        flag_group.draw(WIN)
+        screen.blit(TRACK_IMG, (0,0))
+        fence_group.draw(screen)
+        horse_group.draw(screen)
+        flag_group.draw(screen)
         pygame.display.flip()
         first_loop = False
 
@@ -100,10 +101,15 @@ while run_game:
         wall_collide_dict = pygame.sprite.groupcollide(horse_group, fence_group, False, False, pygame.sprite.collide_mask)
         flag_collide_dict = pygame.sprite.groupcollide(horse_group, flag_group, False, False, pygame.sprite.collide_mask)
 
-        # horse_collide_dict = pygame.sprite.groupcollide(horse_group, horse_group, False, False, pygame.sprite.collide_mask)
-        
-        # for horse in horse_collide_dict:
-        #     horse.bounce()
+        # not sure if this is the best solution, but it works 
+        for horse1 in horse_individual_list:
+            for horse2 in horse_individual_list: 
+                if horse1.sprite.name == horse2.sprite.name:
+                    continue
+                temp_dict = pygame.sprite.groupcollide(horse1, horse2, False, False, pygame.sprite.collide_mask)
+                for horse in temp_dict:
+                    horse.bounce()
+
 
         for horse in wall_collide_dict:
             horse.bounce()
@@ -111,20 +117,16 @@ while run_game:
         for horse in flag_collide_dict:
             race_is_ongoing = False
             race_has_been_finished = True
-            horse.display_celebration(WIN, (WIDTH/2, HEIGHT/2))
-            horse.display_name(WIN, (WIDTH/2, HEIGHT * 0.75))
+            horse.display_celebration(screen, (WIDTH/2, HEIGHT/2))
+            horse.display_name(screen, (WIDTH/2, HEIGHT * 0.75))
             break # we only want the first horse in the dictionary, dont care if this brings on bugs
 
         if race_is_ongoing:
-            WIN.blit(TRACK_IMG, (0,0))
-            fence_group.draw(WIN)
-            horse_group.draw(WIN)
-            flag_group.draw(WIN)
+            screen.blit(TRACK_IMG, (0,0))
+            fence_group.draw(screen)
+            horse_group.draw(screen)
+            flag_group.draw(screen)
             pygame.display.flip()
             clock.tick(FPS)
         else:
             pygame.display.flip()
-
-
-
-# pygame.quit()

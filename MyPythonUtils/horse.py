@@ -11,10 +11,8 @@ class Horse(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=start_position)
         self.velocity = 10
         self.angle = random.randint(0, 360)
-        self.x, self.y = start_position
         self.start_position = start_position
         self.name = name
-
 
     def update(self):
         self.velocity = 10
@@ -28,7 +26,7 @@ class Horse(pygame.sprite.Sprite):
         radians = math.radians(self.angle)
         self.rect.y += math.cos(radians) * self.velocity
         self.rect.x += math.sin(radians) * self.velocity
-        self.angle = self.angle + 180 + random.randint(-60,60)
+        self.angle = self.angle + 180 + random.randint(-50,50)
 
     def display_celebration(self, window, center):
         self.image = scale_image(pygame.image.load("imgs/horses/" + self.name + ".png"), 7)
