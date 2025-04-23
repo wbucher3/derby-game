@@ -1,36 +1,7 @@
 {
     "horses": [
-        {
-            "name": "Will",
-            "maxVelocity": 10,
-            "luck": 10,
-            "predictablity": 10,
-            "agility": 10,
-            "acceleration": 10
-        },
-        {
-            "name": "Avery",
-            "maxVelocity": 10,
-            "luck": 10,
-            "predictablity": 10,
-            "agility": 10,
-            "acceleration": 10
-        },
-        {
-            "name": "Ethan",
-            "maxVelocity": 10,
-            "luck": 10,
-            "predictablity": 10,
-            "agility": 10,
-            "acceleration": 10
-        },
-        {
-            "name": "Nate",
-            "maxVelocity": 10,
-            "luck": 10,
-            "predictablity": 10,
-            "agility": 10,
-            "acceleration": 10
-        }
+        "Red",
+        "Purple",
+        "Green"
     ]
 }

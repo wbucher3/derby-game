@@ -1,0 +1,26 @@
+{
+    "map-1": {
+        "directory": "map-1/",
+        "fenceName": "fence-oval.png",
+        "trackName": "map-oval.png",
+        "flagPositon": {"x": 1650, "y": 550},
+        "startingPositions": [
+            {"x":300,"y":300},
+            {"x":300,"y":300},
+            {"x":300,"y":300},
+            {"x":300,"y":10300}
+        ]
+    },
+    "map-2": {
+        "directory": "testing/",
+        "fenceName": "simple-fence.png",
+        "trackName": "simple-track.png",
+        "flagPositon": {"x": 800, "y": 550},
+        "startingPositions": [
+            {"x":300,"y":300},
+            {"x":300,"y":300},
+            {"x":300,"y":300},
+            {"x":300,"y":300}
+        ]
+    }
+}
