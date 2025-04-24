@@ -1,8 +1,10 @@
 {
     "horses": [
         "Red",
-        "Purple",
+        "Blue",
         "Green",
+        "Orange",
+        "Purple",
         "Crazy"
     ]
 }

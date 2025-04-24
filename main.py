@@ -12,7 +12,7 @@ from MyPythonUtils.datafetch import retrieve_horse_list
 ####################################################
 
 horse_name_list = retrieve_horse_list()
-map_dict = retrieve_map_dict('map-2')
+map_dict = retrieve_map_dict('map-3')
 
 map_directory = map_dict['directory']
 map_fence_file = map_dict['fenceName']
@@ -49,7 +49,7 @@ horse_group = pygame.sprite.Group()
 horse_individual_list = []
 for index in range(0, len(starting_position_list)):
     if index < len(horse_name_list):
-        current = Horse(horse_name_list[index], starting_position_list[index])
+        current = Horse(horse_name_list[index], starting_position_list[index][0], starting_position_list[index][1])
         horse_group.add(current)
         horse_individual_list.append(pygame.sprite.GroupSingle(current))
 
@@ -87,24 +87,9 @@ while run_game:
     if race_is_ongoing:
         
         # change the horse position based on angle and velocity
-        horse_group.update()
+        horse_group.update(horse_group, fence_group)
 
-        # detect wall or flag collisions
-        wall_collide_dict = pygame.sprite.groupcollide(horse_group, fence_group, False, False, pygame.sprite.collide_mask)
         flag_collide_dict = pygame.sprite.groupcollide(horse_group, flag_group, False, False, pygame.sprite.collide_mask)
-
-        # detect horse collisions -- this is kind of messy, probs a better way
-        for horse1 in horse_individual_list:
-            for horse2 in horse_individual_list: 
-                if horse1.sprite.name == horse2.sprite.name:
-                    continue
-                temp_dict = pygame.sprite.groupcollide(horse1, horse2, False, False, pygame.sprite.collide_mask)
-                for horse in temp_dict:
-                    horse.bounce()
-
-        # handle any collisions with walls
-        for horse in wall_collide_dict:
-            horse.bounce()
 
         # handle flag collisions -- win condition
         for horse in flag_collide_dict:
