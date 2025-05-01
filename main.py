@@ -6,6 +6,7 @@ from MyPythonUtils.horse import Horse
 from MyPythonUtils.basicsprite import BasicSprite
 from MyPythonUtils.datafetch import retrieve_map_dict
 from MyPythonUtils.datafetch import retrieve_horse_list
+from MyPythonUtils.util import scale_image
 
 ####################################################
 ##### Fetch all data 
@@ -37,13 +38,17 @@ FPS = 30
 ##### Create Sprite Groups
 #################################################### 
 
-track_group = pygame.sprite.GroupSingle(BasicSprite(pygame.image.load("imgs/" + map_directory + map_track_file), (0,0)))
+track_img = scale_image(pygame.image.load("imgs/" + map_directory + map_track_file), 2)
+fence_img = scale_image(pygame.image.load("imgs/" + map_directory + map_fence_file), 2)
+carrot_img = scale_image(pygame.image.load("imgs/carrots.png"), 2)
+
+track_group = pygame.sprite.GroupSingle(BasicSprite(track_img, (0,0)))
 
 fence_group = pygame.sprite.Group()
-fence_group.add(BasicSprite(pygame.image.load("imgs/" + map_directory + map_fence_file), (0,0)))
+fence_group.add(BasicSprite(fence_img, (0,0)))
 
 flag_group = pygame.sprite.Group()
-flag_group.add(BasicSprite(pygame.image.load("imgs/carrots.png"), flag_position))
+flag_group.add(BasicSprite(carrot_img, flag_position))
 
 horse_group = pygame.sprite.Group()
 horse_individual_list = []
