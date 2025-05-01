@@ -13,7 +13,7 @@ from MyPythonUtils.util import scale_image
 ####################################################
 
 horse_name_list = retrieve_horse_list()
-map_dict = retrieve_map_dict('map-4')
+map_dict = retrieve_map_dict('map-5')
 
 map_directory = map_dict['directory']
 map_fence_file = map_dict['fenceName']
@@ -38,17 +38,26 @@ FPS = 30
 ##### Create Sprite Groups
 #################################################### 
 
-track_img = scale_image(pygame.image.load("imgs/" + map_directory + map_track_file), 2)
-fence_img = scale_image(pygame.image.load("imgs/" + map_directory + map_fence_file), 2)
-carrot_img = scale_image(pygame.image.load("imgs/carrots.png"), 2)
+# track_img = scale_image(pygame.image.load("imgs/" + map_directory + map_track_file), 2)
+# fence_img = scale_image(pygame.image.load("imgs/" + map_directory + map_fence_file), 2)
+# carrot_img = scale_image(pygame.image.load("imgs/carrots.png"), 2)
 
-track_group = pygame.sprite.GroupSingle(BasicSprite(track_img, (0,0)))
+# track_group = pygame.sprite.GroupSingle(BasicSprite(track_img, (0,0)))
+
+# fence_group = pygame.sprite.Group()
+# fence_group.add(BasicSprite(fence_img, (0,0)))
+
+# flag_group = pygame.sprite.Group()
+# flag_group.add(BasicSprite(carrot_img, flag_position))
+
+
+track_group = pygame.sprite.GroupSingle(BasicSprite(pygame.image.load("imgs/" + map_directory + map_track_file), (0,0)))
 
 fence_group = pygame.sprite.Group()
-fence_group.add(BasicSprite(fence_img, (0,0)))
+fence_group.add(BasicSprite(pygame.image.load("imgs/" + map_directory + map_fence_file), (0,0)))
 
 flag_group = pygame.sprite.Group()
-flag_group.add(BasicSprite(carrot_img, flag_position))
+flag_group.add(BasicSprite(pygame.image.load("imgs/carrots.png"), flag_position))
 
 horse_group = pygame.sprite.Group()
 horse_individual_list = []
@@ -76,7 +85,8 @@ while run_game:
         fence_group.draw(screen)
         horse_group.draw(screen)
         flag_group.draw(screen)
-        pygame.display.flip()
+        pygame.display.update()
+        # pygame.display.flip()
         first_loop = False
 
 
@@ -101,11 +111,10 @@ while run_game:
         # detect horse collisions -- this is kind of messy, probs a better way
         for horse1 in horse_individual_list:
             for horse2 in horse_individual_list: 
-                if horse1.sprite.name == horse2.sprite.name:
-                    continue
-                temp_dict = pygame.sprite.groupcollide(horse1, horse2, False, False, pygame.sprite.collide_mask)
-                for horse in temp_dict:
-                    horse.bounce()
+                if horse1.sprite.name != horse2.sprite.name:
+                    temp_dict = pygame.sprite.groupcollide(horse1, horse2, False, False, pygame.sprite.collide_mask)
+                    for horse in temp_dict:
+                        horse.bounce()
 
         # handle any collisions with walls
         for horse in wall_collide_dict:
@@ -121,11 +130,13 @@ while run_game:
 
         # draw the screen after all the logic is complete
         if race_is_ongoing:
+            
             track_group.draw(screen)
             fence_group.draw(screen)
             horse_group.draw(screen)
             flag_group.draw(screen)
-            pygame.display.flip()
+            pygame.display.update()
+            # pygame.display.flip()
             clock.tick(FPS)
         else:
             pygame.display.flip()

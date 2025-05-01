@@ -6,7 +6,8 @@ from MyPythonUtils.util import scale_image
 class Horse(pygame.sprite.Sprite):
     def __init__(self, name, start_position):
         super().__init__()
-        self.image = scale_image(pygame.image.load("imgs/horses/" + name + ".png"), 0.6)
+        # self.image = scale_image(pygame.image.load("imgs/horses/" + name + ".png"), 0.6)
+        self.image = pygame.image.load("imgs/horses/" + name + ".png")
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect(topleft=start_position)
         self.velocity = 10
