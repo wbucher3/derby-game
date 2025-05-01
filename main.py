@@ -12,7 +12,7 @@ from MyPythonUtils.datafetch import retrieve_horse_list
 ####################################################
 
 horse_name_list = retrieve_horse_list()
-map_dict = retrieve_map_dict('map-2')
+map_dict = retrieve_map_dict('map-4')
 
 map_directory = map_dict['directory']
 map_fence_file = map_dict['fenceName']
