@@ -2,12 +2,6 @@
 
 This is game developed for a party with all of my friends! Everyone made their own horses at the beginning of the party and then we competed to see who made the best horse! 
 
-To get started, create a virtual Python environment
-
-```
-python3 -m venv <env_name>
-```
-
 Start the virtual environment 
 
 ```
